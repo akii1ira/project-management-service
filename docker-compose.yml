@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: project_manager
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  app:
+    build: .
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db
+    platform: linux/arm64 # <-- указываем здесь, на уровне сервиса
+
+volumes:
+  pgdata:
